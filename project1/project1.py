@@ -1,21 +1,24 @@
-#yongcheng Zhao project 1
-from project1_quotes import get_quotes, get_practice_quotes
-def is_question():
-    usr_input = input()
-    if usr_input[-1] == '?':
+# Movie Quotes Analysis Section
+def is_question(text):
+    # is user inputing a question? 
+    if text[-1]== "?":
         return True
     else:
-        return False
-    
-def get_fisrt_quaote():
-    quotes_list = input("Enter a list of quotes: ")
-    first_quotes = []    
-    for quote_pair in quotes_list:
-        first_quotes.append(quote_pair[0])
-    return first_quotes
+        print('I only respond to questions!')
 
-def get_first_questions(quotes_list):
-    return [q[0] for q in quotes_list if q[0].strip()[-1] == '?']
+def get_first_quotes(quotes):
+    # get the first quote
+    return [quote[0] for quote in quotes]
 
-def count_questions_quotes(quotes_list):
+def get_first_questions(quotes):
+    is_question= []
+    for quote in quotes:
+        first = quote[0]
+        if is_question(first):
+            is_question.append(first)
+    return is_question
+
+def count_question_quotes(quotes):
+    return len(get_first_questions(quotes))
+    # count the number of quotes that are questions
     
