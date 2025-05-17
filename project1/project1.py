@@ -21,4 +21,12 @@ def get_first_questions(quotes):
 def count_question_quotes(quotes):
     return len(get_first_questions(quotes))
     # count the number of quotes that are questions
-    
+
+def  get_average_question_length(quotes):
+    # get the average length of the questions
+    qus_quotes = get_first_questions(quotes)
+    total = 0
+    for i in qus_quotes:
+        total += len(i)
+    sum = total / len(qus_quotes)
+    return sum
