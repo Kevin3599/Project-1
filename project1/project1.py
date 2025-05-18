@@ -14,7 +14,7 @@ def get_first_quotes(quotes):
     # get the first quote
     return [quote[0] for quote in quotes]
 
-def get_first_questions(quotes):
+def get_first_questions(quotes): #Get the first sentence ending with a question mark in all conversations.
     question_list = []
     for quote in quotes:
         first = quote[0]
@@ -22,7 +22,7 @@ def get_first_questions(quotes):
             question_list.append(first)
     return question_list
 
-def count_question_quotes(quotes):
+def count_question_quotes(quotes):#count the number of quotes that are questions
     return len(get_first_questions(quotes))
     # count the number of quotes that are questions
 
@@ -36,17 +36,17 @@ def  get_average_question_length(quotes):
     return sum
 
 
-def get_responses(quote,text):
+def get_responses(quote,text):#find he response to the question
     return_list = []
     for q,a in quote:
         if q == text:
             return_list.append(a)
     return return_list
 
-def get_random_from_list(input_list):
+def get_random_from_list(input_list):#choose a random response from the list
     return random.choice(input_list)
 
-def respond(quote, text):
+def respond(quote, text):# respond to the user
     if not is_question(text):
         return "I only respond to questions!"
     
@@ -58,14 +58,14 @@ def respond(quote, text):
 
 
 #Jaccard similarity
-def lettersonly(text):
+def lettersonly(text):# remove all non-letter characters
     clean_text = ""
     for char in text.lower():
         if char.isalpha() or char.isspace():
             clean_text += char
     return clean_text
 
-def jaccard_similarity(text1, text2):   
+def jaccard_similarity(text1, text2):  # Jaccard similarity
     text1 = lettersonly(text1)
     text2 = lettersonly(text2)
     set1 = set(text1.split())
@@ -98,12 +98,12 @@ def chatbot(version):
                 if q.lower() == msg.lower():
                     answers.append(a)
                     
-        elif version == 1:
+        elif version == 1:   # Version 1: Basic Jaccard similarity matching
             for q, a in quotes:
                 if jaccard_similarity(q, msg) >= 0.6:
                     answers.append(a)
                     
-        else:
+        else:               # Version 2: Best Jaccard similarity matching
             max_sim = 0
             for q, a in quotes:
                 sim = jaccard_similarity(q, msg)
