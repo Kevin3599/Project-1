@@ -1,5 +1,7 @@
 import random
 from project1_quotes import get_quotes
+import string
+
 quotes = get_quotes()
 # Movie Quotes Analysis Section
 def is_question(text):
@@ -55,19 +57,56 @@ def respond(quote, text):
         return "I don't know."
 
 
+#Jaccard similarity
+def lettersonly(text):
+    clean_text = ""
+    for char in text.lower():
+        if char.isalpha() or char.isspace():
+            clean_text += char
+    return clean_text
+
+def jaccard_similarity(text1, text2):   
+    text1 = lettersonly(text1)
+    text2 = lettersonly(text2)
+    set1 = set(text1.split())
+    set2 = set(text2.split())
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    if union == 0:
+        return 0.0
+    return intersection / union
 
 #chatbot
-
 def chatbot(version):
- if version == 0:
     print("Welcome!")
     while True:
-        usr_in = input("Ask me anything. When you’re done, just type 'bye'\n")
+        usr_in = input("Ask me anything. When you're done, just type 'bye'\n")
         low_usrin = usr_in.lower()
+        
         if low_usrin == 'bye':
             print("Goodbye!")
             break
+            
+        if not is_question(usr_in):
+            print("I only respond to questions!")
+            continue
+            
+        return_list = []# get_responses(quote,text)
+        for q, a in quotes:
+            if version == 0:
+                if q.lower() == usr_in.lower():
+                    return_list.append(a)
+            else:
+                if jaccard_similarity(q, usr_in) >= 0.6:
+                    return_list.append(a)
+                    
+        if return_list:
+            print(get_random_from_list(return_list))
         else:
-            print(respond(quotes, usr_in))
+            print("I don't know.")
+
 if __name__ == "__main__":
-    chatbot(0)
+    chatbot(1)
+
+
+
