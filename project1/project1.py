@@ -80,33 +80,47 @@ def jaccard_similarity(text1, text2):
 def chatbot(version):
     print("Welcome!")
     while True:
-        usr_in = input("Ask me anything. When you're done, just type 'bye'\n")
-        low_usrin = usr_in.lower()
+        msg = input("Ask me anything. When you're done, just type 'bye'\n")
+        msg_low = msg.lower()
         
-        if low_usrin == 'bye':
+        if msg_low == 'bye':
             print("Goodbye!")
             break
             
-        if not is_question(usr_in):
+        if not is_question(msg):
             print("I only respond to questions!")
             continue
             
-        return_list = []# get_responses(quote,text)
-        for q, a in quotes:
-            if version == 0:
-                if q.lower() == usr_in.lower():
-                    return_list.append(a)
-            else:
-                if jaccard_similarity(q, usr_in) >= 0.6:
-                    return_list.append(a)
+        answers = []
+        
+        if version == 0: 
+            for q, a in quotes:
+                if q.lower() == msg.lower():
+                    answers.append(a)
                     
-        if return_list:
-            print(get_random_from_list(return_list))
+        elif version == 1:
+            for q, a in quotes:
+                if jaccard_similarity(q, msg) >= 0.6:
+                    answers.append(a)
+                    
+        else:
+            max_sim = 0
+            for q, a in quotes:
+                sim = jaccard_similarity(q, msg)
+                if sim >= 0.6:
+                    if sim > max_sim:
+                        max_sim = sim
+                        answers = [a]
+                    elif sim == max_sim:
+                        answers.append(a)
+                    
+        if answers:
+            print(get_random_from_list(answers))
         else:
             print("I don't know.")
 
 if __name__ == "__main__":
-    chatbot(1)
+    chatbot(2)
 
 
 
