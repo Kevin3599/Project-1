@@ -1,8 +1,9 @@
 import random
-from project1_quotes import get_quotes
-import string
+from project1_quotes import get_quotes, get_practice_quotes
 
 quotes = get_quotes()
+practice_quotes = get_practice_quotes()
+
 # Movie Quotes Analysis Section
 def is_question(text):
     # is user inputing a question? 
@@ -36,9 +37,9 @@ def  get_average_question_length(quotes):
     return sum
 
 
-def get_responses(quote,text):#find he response to the question
+def get_responses(quotes, text):
     return_list = []
-    for q,a in quote:
+    for q,a in quotes:
         if q == text:
             return_list.append(a)
     return return_list
@@ -46,11 +47,8 @@ def get_responses(quote,text):#find he response to the question
 def get_random_from_list(input_list):#choose a random response from the list
     return random.choice(input_list)
 
-def respond(quote, text):# respond to the user
-    if not is_question(text):
-        return "I only respond to questions!"
-    
-    responses = get_responses(quote, text)
+def respond(quotes, text):
+    responses = get_responses(quotes, text)
     if responses:
         return get_random_from_list(responses)
     else:
